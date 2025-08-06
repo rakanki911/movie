@@ -43,7 +43,6 @@ class _HomePageState extends State<HomePage> {
             child: ListView(
               padding: const EdgeInsets.all(16),
               children: [
-                // شريط البحث
                 TextFormField(
                   controller: _searchController,
                   decoration: InputDecoration(
@@ -70,7 +69,6 @@ class _HomePageState extends State<HomePage> {
                   },
                 ),
                 const SizedBox(height: 16),
-                // نتائج البحث
                 if (provider.isLoadingSearch)
                   const Center(child: CircularProgressIndicator()),
                 if (!provider.isLoadingSearch && provider.searchResults.isNotEmpty)
@@ -94,7 +92,6 @@ class _HomePageState extends State<HomePage> {
                       const SizedBox(height: 24),
                     ],
                   ),
-                // قسم الأفلام الشهيرة
                 Text('الأفلام الشهيرة الآن', style: Theme.of(context).textTheme.titleLarge),
                 const SizedBox(height: 8),
                 SizedBox(
@@ -112,7 +109,6 @@ class _HomePageState extends State<HomePage> {
                         ),
                 ),
                 const SizedBox(height: 24),
-                // قسم المفضلة
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -139,31 +135,31 @@ class _HomePageState extends State<HomePage> {
                                       Text('تصفية المفضلة', style: Theme.of(context).textTheme.titleLarge),
                                       const SizedBox(height: 16),
                                       DropdownButtonFormField<String>(
-                                        value: selectedGenre,
+                                        value: selectedGenre ?? '',
                                         decoration: const InputDecoration(
                                           labelText: 'النوع',
                                           border: OutlineInputBorder(),
                                         ),
-                                        items: [const DropdownMenuItem(value: null, child: Text('الكل'))] +
-                                            genres.map((genre) => DropdownMenuItem(
+                                        items: [const DropdownMenuItem<String>(value: '', child: Text('الكل'))] +
+                                            genres.map((genre) => DropdownMenuItem<String>(
                                               value: genre,
                                               child: Text(genre),
                                             )).toList(),
-                                        onChanged: (value) => setModalState(() => selectedGenre = value),
+                                        onChanged: (value) => setModalState(() => selectedGenre = value == '' ? null : value),
                                       ),
                                       const SizedBox(height: 16),
                                       DropdownButtonFormField<int>(
-                                        value: selectedRating,
+                                        value: selectedRating ?? 0,
                                         decoration: const InputDecoration(
                                           labelText: 'التقييم',
                                           border: OutlineInputBorder(),
                                         ),
-                                        items: [const DropdownMenuItem(value: null, child: Text('الكل'))] +
-                                            List.generate(10, (i) => i + 1).map((rate) => DropdownMenuItem(
+                                        items: [const DropdownMenuItem<int>(value: 0, child: Text('الكل'))] +
+                                            List.generate(10, (i) => i + 1).map((rate) => DropdownMenuItem<int>(
                                               value: rate,
                                               child: Text(rate.toString()),
                                             )).toList(),
-                                        onChanged: (value) => setModalState(() => selectedRating = value),
+                                        onChanged: (value) => setModalState(() => selectedRating = value == 0 ? null : value),
                                       ),
                                       const SizedBox(height: 24),
                                       Row(
