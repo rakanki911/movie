@@ -1,0 +1,19 @@
+workflows:
+  build-ios:
+    name: Build iOS App
+    max_build_duration: 60
+    environment:
+      flutter: stable
+      xcode: latest
+    scripts:
+      - name: تثبيت الحزم
+        script: |
+          flutter pub get
+
+      - name: بناء التطبيق بدون توقيع
+        script: |
+          flutter build ios --release --no-codesign
+
+    artifacts:
+      - build/ios/iphoneos/Runner.app
+      - build/ios/ipa/*.ipa
